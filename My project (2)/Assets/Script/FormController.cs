@@ -13,6 +13,7 @@ using System;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 
 
+
 public class FormController : MonoBehaviour
 {
     public GameObject loginform, signupform, profileform, forgetPassform, notification, MainMenu,changepassform,changemailform;
@@ -21,8 +22,9 @@ public class FormController : MonoBehaviour
     public TMP_InputField Age_txt, Name_txt,NewPassword, PsCheckEmail,CheckEmail ,ConfirmPass, ConfirmEmail, NewEmail;
     public TMP_InputField RcvEmail,RcvUser,RcvID ;
     public Button submitLogin, submitSignup;
-    public TMP_Text noti_message, email_used, user_used,Email_txt,Username_txt,ID_text;
+    public TMP_Text noti_message,Email_txt,Username_txt,ID_text;
     public TMP_Text[] messages;
+    public Button[] buttons;
     //tao list chua thong tin de khi chay truong se doc ko can dung append
     List<PlayerData> playerlist = new List<PlayerData>();
     
@@ -75,7 +77,8 @@ public class FormController : MonoBehaviour
             //Load data cua ng choi khi dang nhap thanh cong
             Name_txt.text = playerdata.Name;
             Age_txt.text = playerdata.Age.ToString();
-            Email_txt.text = playerdata.Email;
+            string eml=playerdata.Email.Substring(0,3)+new string ('*',playerdata.Email.Length-3); 
+            Email_txt.text = eml;
             Username_txt.text = playerdata.Username;
             ID_text.text = playerdata.ID;
             //mo menu
@@ -167,9 +170,8 @@ public class FormController : MonoBehaviour
             }
             playerdata = playerlist.Find(player => player.Email == RcvEmail.text  && player.Username == RcvUser.text  &&  player.ID== RcvID.text);
             if (playerdata!=null)
-            {
-                string colortext = string.Format("<color=#ff0000>{0}</color>", playerdata.Password);
-                showNotification("Your password is \n\"{0}\"" +colortext, false);
+            {             
+                showNotification(string.Format("Your password is \n\"<color=#ff0000>{0}</color>\" ", playerdata.Password), false);
                 RcvUser.text = "";
                 RcvEmail.text = "";
                 RcvID.text = "";
@@ -186,50 +188,104 @@ public class FormController : MonoBehaviour
     }
     public void SignUpUser()
     {
-        
-        //submitSignup.interactable = (signupUser.text.Length >= 6 && signupPassword.text.Length >= 6);
-        if (string.IsNullOrEmpty(signupUser.text) || string.IsNullOrEmpty(signupPassword.text) || string.IsNullOrEmpty(signupConfirm.text)||string.IsNullOrEmpty(signupEmail.text))
+        messages[5].text = "";
+        messages[6].text = "";
+        messages[7].text = "";
+        if (signupUser.text.Length >= 6 && signupPassword.text.Length >= 6 && signupEmail.text.Length >= 6)
         {
-            showNotification("Fields not empty",false);
-            return;
-        }
-        List<PlayerData> playerexisted = Function.Readinfo<PlayerData>();
-        bool emailisused = playerexisted.Any(existed => existed.Email == signupEmail.text);
-        bool userisused = playerexisted.Any(existed => existed.Username == signupUser.text);      
-        if (userisused||emailisused)
-        {   
+            if (string.IsNullOrEmpty(signupUser.text) || string.IsNullOrEmpty(signupPassword.text) || string.IsNullOrEmpty(signupConfirm.text) || string.IsNullOrEmpty(signupEmail.text))
+            {
+                showNotification("Fields not empty", false);
+                return;
+            }
+            List<PlayerData> playerexisted = Function.Readinfo<PlayerData>();
+            bool emailisused = playerexisted.Any(existed => existed.Email == signupEmail.text);
+            bool userisused = playerexisted.Any(existed => existed.Username == signupUser.text);
+            if (userisused || emailisused)
+            {
 
-            if (userisused)
-            {
-                user_used.text = "Username have already been used";
+                if (userisused)
+                {
+                    messages[7].text = "Username have already been used";
+                }
+                if (emailisused)
+                {
+                    messages[6].text = "Email have already been used";
+                }
+               
+                signupPassword.text = "";
+                signupConfirm.text = "";
+                Debug.Log("existed");
+                return;
             }
-            if (emailisused)
+          
+            if(signupConfirm.text!=signupPassword.text)
             {
-                email_used.text = "Email have already been used";
+                messages[5].text = "Confirmation incorrect";
+                return;
             }
-            if (!emailisused)
+            if(signupEmail.text.Split('@').Length > 1)
             {
-                email_used.text = "";
+                messages[6].text = "Email not valid";
+                return;
             }
-            if (!userisused)
-            {
-                user_used.text = "";
-            }
+
+            playerlist.Add(new PlayerData(signupUser.text, signupPassword.text, signupEmail.text, "PL" + Guid.NewGuid().ToString().Substring(0, 4)));
+            messages[6].text = "";
+            messages[7].text = "";
             signupPassword.text = "";
             signupConfirm.text = "";
-            Debug.Log("existed");
+            Function.Saveinfo<PlayerData>(playerlist);
+            showNotification("Account created successfully", false);
+            RunLogin();
+        }
+        else
+        {
+            if (signupEmail.text.Split('@').Length > 2)
+            {
+                messages[6].text = "Email not valid";            
+            }
+            if (signupUser.text.Length < 6)
+            {
+                messages[7].text = "Must contain atleast 6 characters";
+            }
+            if (signupPassword.text.Length < 6)
+            {
+                messages[5].text = "Must contain atleast 6 characters";
+            }
+            else
+            {
+                if (signupPassword.text.Length < 6 && signupUser.text.Length < 6)
+                {
+                    messages[7].text = "Must contain atleast 6 characters";
+                    messages[5].text = "Must contain atleast 6 characters";
+                }
+            }
             return;
         }
-        playerlist.Add(new PlayerData(signupUser.text, signupPassword.text, signupEmail.text, "PL" + Guid.NewGuid().ToString().Substring(0, 4)));
-        email_used.text = "";
-        user_used.text = "";
-        signupPassword.text = "";
-        signupConfirm.text = "";
-        Function.Saveinfo<PlayerData>(playerlist);
-        showNotification("Account created successfully",false);
-        RunLogin();
         //Dang ki
     }
+
+    public void Emailsignup(string text)
+    {
+        string mail = "@gmail.com";
+        if (!signupEmail.text.EndsWith(mail))
+        {
+            for (int i = 1; i < mail.Length; i++)
+            {
+                if (signupEmail.text.EndsWith(mail.Substring(0, i)))
+                {
+                    signupEmail.text += mail.Substring(i);
+                    break;
+                }
+            }
+            if (!signupEmail.text.EndsWith(mail))
+            {
+                signupEmail.text += mail;
+            }
+        }
+    }
+
     private void showNotification(string message,bool yesno)
     {
         if (yesno)
@@ -256,7 +312,7 @@ public class FormController : MonoBehaviour
     {
         notification.SetActive(false);   
     }
-    public Button[] buttons;
+    
 
     public void NotiBtnSelect(Button button,bool yesno)
     {
@@ -311,6 +367,7 @@ public class FormController : MonoBehaviour
     private void Start()
     {
         playerlist = Function.Readinfo<PlayerData>();
+        signupEmail.onEndEdit.AddListener(Emailsignup);
         RunLogin();
     }
 }
