@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 [Serializable]
 public class PlayerData
 {
@@ -13,7 +14,7 @@ public class PlayerData
     public int Age;
     public int Score=0;
     public int Highscore=0;
-    public Texture2D image;
+    public string image;
     public PlayerData(string Username ,string Password, string Email,string ID)
     {
         this.Email = Email;
@@ -21,7 +22,7 @@ public class PlayerData
         this.Password = Password;     
         this.ID = ID;
     }
-    public PlayerData(string Email, string Username, string Password, string ID, string Name,int Age,int Score,int Highscore,Texture2D image)
+    public PlayerData(string Email, string Username, string Password, string ID, string Name,int Age,int Score,int Highscore,string image)
     {
         this.Email = Email;
         this.Username=Username;

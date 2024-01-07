@@ -11,6 +11,8 @@ using Unity.Services.Authentication;
 using UnityEngine.EventSystems;
 using System;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
+using System.IO;
+using UnityEngine.Networking;
 
 
 
@@ -25,9 +27,10 @@ public class FormController : MonoBehaviour
     public TMP_Text noti_message,Email_txt,Username_txt,ID_text;
     public TMP_Text[] messages;
     public Button[] buttons;
+    public RawImage image;
     //tao list chua thong tin de khi chay truong se doc ko can dung append
     List<PlayerData> playerlist = new List<PlayerData>();
-    
+    //Chay form theo ten
     public void RunLogin()
     {
         loginform.SetActive(true);
@@ -60,6 +63,7 @@ public class FormController : MonoBehaviour
         profileform.SetActive(false);
         forgetPassform.SetActive(true);
     }
+    //Nhan nut dang nhap
     public void LoginUser()
     {
         //Kiem tra truong ten va mat khau co trong ko
@@ -81,6 +85,7 @@ public class FormController : MonoBehaviour
             Email_txt.text = eml;
             Username_txt.text = playerdata.Username;
             ID_text.text = playerdata.ID;
+            image =stringtoImage(playerdata.image);
             //mo menu
             loginform.SetActive(false);
             MainMenu.SetActive(true);
@@ -93,6 +98,7 @@ public class FormController : MonoBehaviour
         }
 
     }
+    //Cap nhat tt nguoi choi va tt tai khoan
     public void UpdateInfo(Button button)
     {
         PlayerData playerdata = playerlist.Find(player => player.Username == Username_txt.text);
@@ -100,7 +106,8 @@ public class FormController : MonoBehaviour
         if (button == buttons[3])
         {
             playerdata.Name = Name_txt.text;
-            playerdata.Age = int.Parse(Age_txt.text);           
+            playerdata.Age = int.Parse(Age_txt.text);
+            playerdata.image = Imagetostring(image);
             StartCoroutine(ShowMessage("Changes saved",0,2));
         }
         if (button == buttons[4])
@@ -186,6 +193,7 @@ public class FormController : MonoBehaviour
         Function.Saveinfo<PlayerData>(playerlist);
             
     }
+    //Nhan nut dang ki
     public void SignUpUser()
     {
         messages[5].text = "";
@@ -224,7 +232,7 @@ public class FormController : MonoBehaviour
                 messages[5].text = "Confirmation incorrect";
                 return;
             }
-            if(signupEmail.text.Split('@').Length > 1)
+            if(signupEmail.text.Split('@').Length > 2)
             {
                 messages[6].text = "Email not valid";
                 return;
@@ -265,7 +273,7 @@ public class FormController : MonoBehaviour
         }
         //Dang ki
     }
-
+    //Tu dong dien @gmail.com khi dang ki
     public void Emailsignup(string text)
     {
         string mail = "@gmail.com";
@@ -285,7 +293,7 @@ public class FormController : MonoBehaviour
             }
         }
     }
-
+    //Hien thi thong bao
     private void showNotification(string message,bool yesno)
     {
         if (yesno)
@@ -302,18 +310,20 @@ public class FormController : MonoBehaviour
         noti_message.text = " " + message;
         
     }
+    //Hien thi tin nhan thong bao va tat sau vai giay
     IEnumerator ShowMessage(string message,int i,float delay)
     {
         messages[i].text=message;
         yield return new WaitForSeconds(delay);
         messages[i].text = "";
     }
+    //Dong form thong bao
     public void Noti_button()
     {
         notification.SetActive(false);   
     }
     
-
+    //Chon nut de phu hop voi thong bao(yes/no hoac ok)
     public void NotiBtnSelect(Button button,bool yesno)
     {
         for (int i = 0; i <= 2; i++)
@@ -348,7 +358,7 @@ public class FormController : MonoBehaviour
         }
 
     }
-
+    //Thoat
     public void Exit()
     {       
         showNotification("Exit game?",true);
@@ -356,18 +366,60 @@ public class FormController : MonoBehaviour
         buttons[1].onClick = new Button.ButtonClickedEvent();
         buttons[1].onClick.AddListener(Application.Quit);
     }
+    //Dang xuat
     public void Logout()
     {         
         showNotification("Are you sure you want to log out ",true);
     }
+    //Bat dau choi
     public void StartGame()
     {
         SceneManager.LoadScene("Game");
     }
+    //Up anh tu file explorer
+    public void GetImage()
+    {
+        StartCoroutine(GetTexture());
+    }
+    IEnumerator GetTexture()
+    {
+        string path = EditorUtility.OpenFilePanel("Choose picture", "", "jpg,jpeg,png");
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture("file:///" + path);
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            image.texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+        }
+    }
+    //Chuyen anh thanh string de luu va nguoc lai
+    //#
+    public string Imagetostring(RawImage image)
+    {
+        Texture2D texture =  image.texture as Texture2D;     
+        byte[] bytes = texture.EncodeToPNG();
+        string ItoStr = Convert.ToBase64String(bytes);  
+        return ItoStr; 
+    }
+    public RawImage stringtoImage(string text)
+    {
+        byte[] bytes = Convert.FromBase64String(text);
+        Texture2D texture = new Texture2D(2, 2);
+        texture.LoadImage(bytes);        
+        image.texture = texture;
+        return image;
+    }
+    //#
+
     private void Start()
     {
         playerlist = Function.Readinfo<PlayerData>();
         signupEmail.onEndEdit.AddListener(Emailsignup);
-        RunLogin();
+        //RunLogin();
     }
+    
 }
