@@ -419,7 +419,7 @@ public class FormController : MonoBehaviour
     {
         playerlist = Function.Readinfo<PlayerData>();
         signupEmail.onEndEdit.AddListener(Emailsignup);
-        //RunLogin();
+        RunLogin();
     }
     
 }
