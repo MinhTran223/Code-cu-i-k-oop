@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.VirtualTexturing;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class OptionsController : MonoBehaviour
 {
@@ -106,10 +107,16 @@ public class OptionsController : MonoBehaviour
         string stringTime=string.Format("{0:00}: {1:00}: {2:00}",hour,minute,second);
         return stringTime;
     }
+    private void Backtomenu()
+    {
+        SceneManager.LoadScene("Menu&Form");
+        
+    }
 
     private void Update()
     {
         if (playButton.activeSelf == false && option.activeSelf == false)
             timerText.text = FomatTime(timer + (int)Time.time - timeClick);
     }
+
 }
