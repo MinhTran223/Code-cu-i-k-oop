@@ -42,7 +42,7 @@ public static class Function
 
     }
 
-    public static string path = Application.dataPath + "/playerdata.json";
+    public static string path = Application.dataPath + "/Pl_data.json";
     public static void WriteFile(string content)
     {
         FileStream strm = new FileStream(path, FileMode.Create);
