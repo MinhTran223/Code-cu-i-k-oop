@@ -1521,7 +1521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.21568628, g: 0.7940279, b: 0.990566, a: 0.99607843}
+  m_Color: {r: 0.21568628, g: 0.7940279, b: 0.990566, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1556,7 +1556,7 @@ Animator:
   m_GameObject: {fileID: 128670130}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 81b25769e70fa1343a19d802459d1644, type: 2}
+  m_Controller: {fileID: 9100000, guid: e8bb11e7cfc241e4da723e57d3cc587e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -4035,11 +4035,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1507769517}
+  m_Father: {fileID: 796449104}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.382}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.45719, y: 241.44}
+  m_AnchoredPosition: {x: -0.45719, y: 0.63072205}
   m_SizeDelta: {x: 533.31, y: 452.12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &313939464
@@ -6007,7 +6007,7 @@ Animator:
   m_GameObject: {fileID: 552053274}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 81b25769e70fa1343a19d802459d1644, type: 2}
+  m_Controller: {fileID: 9100000, guid: e8bb11e7cfc241e4da723e57d3cc587e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -8795,6 +8795,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1673754274}
+  - {fileID: 313818119}
   m_Father: {fileID: 1507769517}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -8878,7 +8879,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 12646b5e36720e643a1f380cc9a73cb6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9930,7 +9931,7 @@ Animator:
   m_GameObject: {fileID: 883100566}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 81b25769e70fa1343a19d802459d1644, type: 2}
+  m_Controller: {fileID: 9100000, guid: e8bb11e7cfc241e4da723e57d3cc587e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -12993,8 +12994,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279440150
-  m_fontColor: {r: 0.084905684, g: 0.074225724, b: 0.074225724, a: 1}
+    rgba: 4212265491
+  m_fontColor: {r: 0.0754717, g: 0.070962384, b: 0.070962384, a: 0.9843137}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -16435,7 +16436,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1507769517
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16456,7 +16457,6 @@ RectTransform:
   - {fileID: 1052365652}
   - {fileID: 850158622}
   - {fileID: 796449104}
-  - {fileID: 313818119}
   - {fileID: 222002646}
   - {fileID: 1590605575}
   m_Father: {fileID: 894608291}
@@ -21435,7 +21435,7 @@ Animator:
   m_GameObject: {fileID: 2088011721}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 81b25769e70fa1343a19d802459d1644, type: 2}
+  m_Controller: {fileID: 9100000, guid: e8bb11e7cfc241e4da723e57d3cc587e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

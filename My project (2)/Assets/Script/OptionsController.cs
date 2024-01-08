@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class OptionsController : MonoBehaviour
 {
     [SerializeField]
-    private GameObject sizeForm, modeForm, gameField, gameField4x4, gameField6x6, gameField8x8, gameField10x10;
+    private GameObject sizeForm, progressForm, gameField, gameField4x4, gameField6x6, gameField8x8, gameField10x10;
 
     [SerializeField]
     private GameObject playButton,pauseButton, resumeButton, option, savedNotification;
@@ -17,23 +17,23 @@ public class OptionsController : MonoBehaviour
     [SerializeField]
     private TMP_Text timerText;
     private int timeClick,timer=0;
-    public void OpenModeForm()
+    public void OpenprogressForm()
     {
-        modeForm.SetActive(true);
+        progressForm.SetActive(true);
         sizeForm.SetActive(false);
         gameField.SetActive(false);
 
     }
     public void OpenSizeForm()
     {
-        modeForm.SetActive(false);
+        progressForm.SetActive(false);
         sizeForm.SetActive(true);
         gameField.SetActive(false);
 
     }
     public void OpenGameField4x4()
     {
-        modeForm.SetActive(false);
+        progressForm.SetActive(false);
         sizeForm.SetActive(false);
         gameField.SetActive(true);
         gameField4x4.SetActive(true);
@@ -45,7 +45,7 @@ public class OptionsController : MonoBehaviour
 
     public void OpenGameField6x6()
     {
-        modeForm.SetActive(false);
+        progressForm.SetActive(false);
         sizeForm.SetActive(false);
         gameField.SetActive(true);
         gameField4x4.SetActive(false);
@@ -55,7 +55,7 @@ public class OptionsController : MonoBehaviour
     }
     public void OpenGameField8x8()
     {
-        modeForm.SetActive(false);
+        progressForm.SetActive(false);
         sizeForm.SetActive(false);
         gameField.SetActive(true);
         gameField4x4.SetActive(false);
@@ -65,7 +65,7 @@ public class OptionsController : MonoBehaviour
     }
     public void OpenGameField10x10()
     {
-        modeForm.SetActive(false);
+        progressForm.SetActive(false);
         sizeForm.SetActive(false);
         gameField.SetActive(true);
         gameField4x4.SetActive(false);
