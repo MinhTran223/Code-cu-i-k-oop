@@ -2051,7 +2051,6 @@ MonoBehaviour:
   option: {fileID: 1839556218}
   savedNotification: {fileID: 1688069099}
   timerText: {fileID: 873875043}
-  playerID: {fileID: 0}
 --- !u!4 &566512500
 Transform:
   m_ObjectHideFlags: 0
@@ -5520,7 +5519,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 25
+    m_FontSize: 30
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 2

@@ -36,7 +36,11 @@ public class PlayerData
         this.image=image;               
     }
 
-
+    public PlayerData(string Username,string Name,int Score) {
+        this.Username =Username;
+        this.Name = Name;
+        this.Score= Score;
+    }
 
 
 }

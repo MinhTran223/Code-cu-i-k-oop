@@ -91,7 +91,7 @@ public class FormController : MonoBehaviour
             loginform.SetActive(false);
             MainMenu.SetActive(true);
             PlayerPrefs.SetString("PlayerID", playerdata.ID);
-            LoginState.Instance.IsLoggedIn = true;
+            
         }
         else
         {
@@ -374,11 +374,7 @@ public class FormController : MonoBehaviour
     public void Logout()
     {         
         showNotification("Are you sure you want to log out ",true);
-        if (buttons[1])
-        {
-            LoginState.Instance.IsLoggedIn = false;
-        }
-
+        
     }
     //Bat dau choi
     public void StartGame()
@@ -423,19 +419,22 @@ public class FormController : MonoBehaviour
         return image;
     }
     //#
-    public class LoginState
-    {      
-        public static LoginState Instance { get; private set; }     
-        public bool IsLoggedIn { get; set; }
-    
-        public LoginState()
-        {
-            if (Instance != null)
-            {
-                return;
-            }
+   
+    private List<PlayerData> scores = new List<PlayerData>();
+    public TMP_Text leaderboardText;
+    public void AddScore(string Username,string playerName, int score)
+    {
+        scores.Add(new PlayerData(Username,playerName, score));
+        scores = scores.OrderByDescending(s => s.Score).ToList();
+        DisplayTopScores(7);
+    }
+    public void DisplayTopScores(int topCount)
+    {
+        leaderboardText.text = "";
 
-            Instance = this;
+        for (int i = 0; i < Mathf.Min(topCount, scores.Count); i++)
+        {
+            leaderboardText.text += $"{i + 1}. {scores[i].Name}: {scores[i].Score}\n";
         }
     }
     private void Start()
@@ -447,6 +446,7 @@ public class FormController : MonoBehaviour
         if(isLoggedIn == 1)
         {
             loginform.SetActive(false);
+            MainMenu.SetActive(true);
         }
 
     }
