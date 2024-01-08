@@ -28,7 +28,7 @@ public class FormController : MonoBehaviour
     public TMP_Text[] messages;
     public Button[] buttons;
     public RawImage image;
-    bool IsLoggedIn=false;
+    
     //tao list chua thong tin de khi chay truong se doc ko can dung append
     List<PlayerData> playerlist = new List<PlayerData>();
     //Chay form theo ten
@@ -90,7 +90,8 @@ public class FormController : MonoBehaviour
             //mo menu
             loginform.SetActive(false);
             MainMenu.SetActive(true);
-            IsLoggedIn = true;
+            PlayerPrefs.SetString("PlayerID", playerdata.ID);
+            LoginState.Instance.IsLoggedIn = true;
         }
         else
         {
@@ -375,7 +376,7 @@ public class FormController : MonoBehaviour
         showNotification("Are you sure you want to log out ",true);
         if (buttons[1])
         {
-            IsLoggedIn = false;
+            LoginState.Instance.IsLoggedIn = false;
         }
 
     }
@@ -422,17 +423,33 @@ public class FormController : MonoBehaviour
         return image;
     }
     //#
+    public class LoginState
+    {      
+        public static LoginState Instance { get; private set; }     
+        public bool IsLoggedIn { get; set; }
+    
+        public LoginState()
+        {
+            if (Instance != null)
+            {
+                return;
+            }
 
+            Instance = this;
+        }
+    }
     private void Start()
     {
         playerlist = Function.Readinfo<PlayerData>();
         signupEmail.onEndEdit.AddListener(Emailsignup);
         RunLogin();
-        if (IsLoggedIn)
-        {            
+        int isLoggedIn = PlayerPrefs.GetInt("IsLoggedIn");
+        if(isLoggedIn == 1)
+        {
             loginform.SetActive(false);
         }
 
     }
+    
 
 }

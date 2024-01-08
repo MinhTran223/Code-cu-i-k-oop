@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.VirtualTexturing;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class OptionsController : MonoBehaviour
@@ -89,9 +91,21 @@ public class OptionsController : MonoBehaviour
     public void PauseGame()
     {
         timer = timer+ (int)Time.time - timeClick;
+        SaveGame(timer);
         option.SetActive(true);
+        
     }
-
+    public void SaveGame(int time)
+    {
+        string playerID = PlayerPrefs.GetString("PlayerID");
+        List<PlayerData> playerlist=Function.Readinfo<PlayerData>();
+        PlayerData playerdata = playerlist.Find(player => player.ID == playerID);
+        if (playerdata != null)
+        {
+            playerdata.Time = time;
+        }
+        Function.Saveinfo<PlayerData>(playerlist);
+    }
     public void Resume()
     {
         timeClick = (int)Time.time;
@@ -106,10 +120,17 @@ public class OptionsController : MonoBehaviour
         string stringTime=string.Format("{0:00}: {1:00}: {2:00}",hour,minute,second);
         return stringTime;
     }
+    public void Backtomenu()
+    {
+        PlayerPrefs.SetInt("IsLoggedIn", 1);
+        SceneManager.LoadScene("Menu&form");
+        
+    }
 
     private void Update()
     {
         if (playButton.activeSelf == false && option.activeSelf == false)
             timerText.text = FomatTime(timer + (int)Time.time - timeClick);
     }
+    
 }
