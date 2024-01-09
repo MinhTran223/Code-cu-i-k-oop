@@ -11,17 +11,17 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] 
+    [SerializeField]
     private Transform gameField;
 
-    [SerializeField] 
+    [SerializeField]
     private GameObject _card;
 
-    [SerializeField] 
+    [SerializeField]
     private Sprite backgroundImage;
 
-    [SerializeField] 
-    private GameObject onePlayerField,player1Field,player2Field;
+    [SerializeField]
+    private GameObject onePlayerField, player1Field, player2Field;
 
     [SerializeField]
     private TMP_Text movesText, pairsText, pairsPlayer1Text, pairsPlayer2Text;
@@ -30,14 +30,14 @@ public class GameController : MonoBehaviour
     public Sprite[] sprites;
     public List<Button> buttons = new List<Button>();
     private List<int> locations = new List<int>();
-    private int firstSelectedCard=-1,secondSelectedCard=-2,size;
+    private int firstSelectedCard = -1, secondSelectedCard = -2, size;
     public int moves = 0, pairs = 0, pairsPlayer1 = 0, pairsPlayer2 = 0;
     private bool turnPlayer1 = true;
     public bool pausePlayer1 = true, pausePlayer2 = true;
     void Awake()
     {
-        GridLayoutGroup group=gameField.GetComponent<GridLayoutGroup>();
-        size=group.constraintCount*group.constraintCount;
+        GridLayoutGroup group = gameField.GetComponent<GridLayoutGroup>();
+        size = group.constraintCount * group.constraintCount;
         sprites = Resources.LoadAll<Sprite>("Native Images");
         for (int i = 0; i < size; i++)
         {
@@ -66,13 +66,13 @@ public class GameController : MonoBehaviour
         pairsPlayer2 = 0;
         movesText.text = "Moves: " + moves.ToString();
         pairsText.text = "Pairs: " + pairs.ToString();
-        pairsPlayer1Text.text ="Pairs:" +pairsPlayer1.ToString();
+        pairsPlayer1Text.text = "Pairs:" + pairsPlayer1.ToString();
         pairsPlayer2Text.text = "Pairs:" + pairsPlayer2.ToString();
         locations.Clear();
     }
     private void GetRandom()
     {
-        
+
         while (locations.Count < size)
         {
             int j = Random.Range(0, 52);
@@ -103,9 +103,9 @@ public class GameController : MonoBehaviour
 
     public void PickCard()
     {
-        string name=EventSystem.current.currentSelectedGameObject.name;
+        string name = EventSystem.current.currentSelectedGameObject.name;
         int index1 = int.Parse(name);
-        int index2= locations[index1];
+        int index2 = locations[index1];
 
 
         if (firstSelectedCard < 0)
@@ -138,7 +138,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            
+
             pairs++;
             pairsText.text = "Pairs: " + pairs.ToString();
 
@@ -175,13 +175,14 @@ public class GameController : MonoBehaviour
         firstSelectedCard = -1;
         secondSelectedCard = -2;
     }
-    void SetCards() {
+    void SetCards()
+    {
         GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Card");
-        for (int i= 0;i < gameObjects.Length;i++)
+        for (int i = 0; i < gameObjects.Length; i++)
         {
             buttons.Add(gameObjects[i].GetComponent<Button>());
             buttons[i].image.sprite = backgroundImage;
-            buttons[i].image.color = new Color(255,255,255, 255);
+            buttons[i].image.color = new Color(255, 255, 255, 255);
         }
     }
 }

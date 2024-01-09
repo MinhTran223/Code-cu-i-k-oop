@@ -272,7 +272,12 @@ public class OptionsController : MonoBehaviour
         else
             return false;
     }
- 
+    public void BacktoMenu()
+    {
+        PlayerPrefs.SetInt("IsLoggedIn", 1);
+        SceneManager.LoadScene("Menu&form");
+    }
+
     private void Update()
     {
         if (playButton.activeSelf == false && option.activeSelf == false)
