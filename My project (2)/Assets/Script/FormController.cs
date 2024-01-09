@@ -13,6 +13,7 @@ using System;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using System.IO;
 using UnityEngine.Networking;
+using Unity.VisualScripting;
 
 
 
@@ -385,7 +386,8 @@ public class FormController : MonoBehaviour
     //Bat dau choi
     public void StartGame()
     {
-        SceneManager.LoadScene("Game");
+        PlayerPrefs.SetInt("IsLoggedIn", 1);
+        SceneManager.LoadScene("Game");      
     }
     //Up anh tu file explorer
     public void GetImage()
@@ -443,18 +445,27 @@ public class FormController : MonoBehaviour
             leaderboardText.text += $"{i + 1}. {scores[i].Name}: {scores[i].Score}\n";
         }
     }
-    private void Start()
+    public void CheckLoggedin()
     {
-        playerlist = Function.Readinfo<PlayerData>();
-        signupEmail.onEndEdit.AddListener(Emailsignup);
-        RunLogin();
         int isLoggedIn = PlayerPrefs.GetInt("IsLoggedIn");
-        if(isLoggedIn == 1)
+        if (isLoggedIn == 1)
         {
             loginform.SetActive(false);
             MainMenu.SetActive(true);
         }
+        else RunLogin();
+    }
+    void OnApplicationQuit()
+    {
+        PlayerPrefs.SetInt("IsLoggedIn", 0);
+        PlayerPrefs.Save();
+    }
 
+    private void Start()
+    {       
+        playerlist = Function.Readinfo<PlayerData>();
+        signupEmail.onEndEdit.AddListener(Emailsignup);
+        CheckLoggedin();
     }
     
 
