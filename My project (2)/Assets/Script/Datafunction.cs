@@ -12,7 +12,7 @@ using System.Text;
 
 public static class Function
 {
-    //Lop JsonHelper de doc ghi du lieu ma ko ghi de trong file json
+    //Lop JsonHelper de doc ghi du lieu kieu List vao file json
     public static class JsonHelper
     {
         public static T[] FromJson<T>(string json)
@@ -63,7 +63,7 @@ public static class Function
         }
         return "";
     }
-    public static void Saveinfo<T>(List<T>saveinfo )
+    public static void Saveinfo<T>(List<T>saveinfo)
     {
         string info = JsonHelper.ToJson<T>(saveinfo.ToArray());
         WriteFile(info);
