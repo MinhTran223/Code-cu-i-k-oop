@@ -267,10 +267,11 @@ public class OptionsController : MonoBehaviour
     private bool IsEndGame()
     {
 
-        if (gameField4x4.GetComponent<GameController>().pairs == 8 || gameField6x6.GetComponent<GameController>().pairs == 18 || gameField8x8.GetComponent<GameController>().pairs == 32 || gameField10x10.GetComponent<GameController>().pairs == 50 || timePlayer2 <= 0||timePlayer1<=0)
-             return true;
-        else
-            return false;
+        if (gameField4x4.GetComponent<GameController>().pairs == 8 || gameField6x6.GetComponent<GameController>().pairs == 18 || gameField8x8.GetComponent<GameController>().pairs == 32 || gameField10x10.GetComponent<GameController>().pairs == 50 || timePlayer2 <= 0 || timePlayer1 <= 0){
+            return true; 
+        }
+        else 
+        return false;
     }
     public void BacktoMenu()
     {

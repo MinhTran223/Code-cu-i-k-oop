@@ -18,7 +18,7 @@ using UnityEngine.Networking;
 
 public class FormController : MonoBehaviour
 {
-    public GameObject loginform, signupform, profileform, forgetPassform, notification, MainMenu,changepassform,changemailform;
+    public GameObject loginform, signupform, profileform,Menuform, forgetPassform, notification, MainMenu,changepassform,changemailform;
     [SerializeField] 
     public TMP_InputField loginUser, loginPassword, signupEmail, signupUser, signupPassword, signupConfirm;
     public TMP_InputField Age_txt, Name_txt,NewPassword, PsCheckEmail,CheckEmail ,ConfirmPass, ConfirmEmail, NewEmail;
@@ -63,6 +63,12 @@ public class FormController : MonoBehaviour
         signupform.SetActive(false);
         profileform.SetActive(false);
         forgetPassform.SetActive(true);
+    }
+
+    public void RunMenu()
+    {
+        Menuform.SetActive(true);
+        profileform.SetActive(false);
     }
     //Nhan nut dang nhap
     public void LoginUser()
