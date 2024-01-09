@@ -80,8 +80,7 @@ public class FormController : MonoBehaviour
             return;
         }
         //Dang nhap
-        List<PlayerData> playerexisted = Function.Readinfo<PlayerData>();
-        PlayerData playerdata = playerexisted.Find(player => player.Username == loginUser.text && player.Password == loginPassword.text);
+        PlayerData playerdata = playerlist.Find(player => player.Username == loginUser.text && player.Password == loginPassword.text);
         if (playerdata != null)
         {
             Debug.Log("Login successfully");
@@ -210,16 +209,16 @@ public class FormController : MonoBehaviour
         messages[5].text = "";
         messages[6].text = "";
         messages[7].text = "";
+        if (string.IsNullOrEmpty(signupUser.text) || string.IsNullOrEmpty(signupPassword.text) || string.IsNullOrEmpty(signupConfirm.text) || string.IsNullOrEmpty(signupEmail.text))
+        {
+            showNotification("Fields not empty", false);
+            return;
+        }
         if (signupUser.text.Length >= 6 && signupPassword.text.Length >= 6 && signupEmail.text.Length >= 6)
         {
-            if (string.IsNullOrEmpty(signupUser.text) || string.IsNullOrEmpty(signupPassword.text) || string.IsNullOrEmpty(signupConfirm.text) || string.IsNullOrEmpty(signupEmail.text))
-            {
-                showNotification("Fields not empty", false);
-                return;
-            }
-            List<PlayerData> playerexisted = Function.Readinfo<PlayerData>();
-            bool emailisused = playerexisted.Any(existed => existed.Email == signupEmail.text);
-            bool userisused = playerexisted.Any(existed => existed.Username == signupUser.text);
+           
+            bool emailisused = playerlist.Any(existed => existed.Email == signupEmail.text);
+            bool userisused = playerlist.Any(existed => existed.Username == signupUser.text);
             if (userisused || emailisused)
             {
 
